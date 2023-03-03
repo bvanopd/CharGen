@@ -1,0 +1,590 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <script type="module" src="chargen.js"></script>
+  <link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+
+  <button onclick="charGen()">Create Character</button>
+  <button onclick="charExport()">Export Character</button>
+  <h1>Origins, Abilities, and Skills</h1>
+  <div class="section" id="stats">
+
+    <div class="left">
+      <div class="backgroundWrapper">
+        <h2>Background/Class</h2>
+        <ul>
+          <li>
+            <label for="backgroundBox">Background: </label>
+            <input id="backgroundBox" type="text" readonly />
+          </li>
+          <li>
+            <label for="classBox">Class: </label>
+            <input id="classBox" type="text" readonly />
+          </li>
+          <li>
+            <label for="hpBox">HP Roll: </label>
+            <input id="hpBox" type="text" readonly />
+          </li>
+        </ul>
+      </div>
+      <div class="abilityWrapper">
+        <h2>Ability Scores</h2>
+        <div id="bonusRolls">
+          <h3>Bonuses to Assign: </h3>
+          <div class="bonusContainer">
+            <p>Set to 14: <span id="14">0</span></p>
+            <p>+2 Physical: <span id="phys">0</span></p>
+            <p>+2 Mental: <span id="ment">0</span></p>
+            <p>+1 Any: <span id="all">0</span></p>
+          </div>
+        </div>
+        <ul class="attributesContainer">
+          <li>
+            <label for="strBox">STR: </label>
+            <input id="strBox" type="text" readonly />
+            <span>
+              <button disabled class="statButton" id="str2" value="strBox,2,physVal">+2</button>
+              <button disabled class="statButton" id="str1" value="strBox,1,allVal">+1</button>
+              <button class="statButton" id="str14" value="strBox,14,val14">Set to 14</button>
+            </span>
+          </li>
+          <li>
+            <label for="dexBox">DEX: </label>
+            <input id="dexBox" type="text" readonly />
+            <span>
+              <button disabled id="dex2" class="statButton" value="dexBox,2,physVal">+2</button>
+              <button disabled id="dex1" class="statButton" value="dexBox,1,allVal">+1</button>
+              <button id="dex14" class="statButton" value="dexBox,14,val14">Set to 14</button>
+            </span>
+          </li>
+          <li>
+            <label for="conBox">CON: </label>
+            <input id="conBox" type="text" readonly />
+            <span>
+              <button id="con2" disabled class="statButton" value="conBox,2,physVal">+2</button>
+              <button id="con1" disabled class="statButton" value="conBox,1,allVal">+1</button>
+              <button id="con14" class="statButton" value="conBox,14,val14">Set to 14</button>
+            </span>
+          </li>
+          <li>
+            <label for="intBox">INT: </label>
+            <input id="intBox" type="text" readonly />
+            <span>
+              <button id="int2" disabled class="statButton" value="intBox,2,mentVal">+2</button>
+              <button id="int1" disabled class="statButton" value="intBox,1,allVal">+1</button>
+              <button id="int14" class="statButton" value="intBox,14,val14">Set to 14</button>
+            </span>
+          </li>
+          <li>
+            <label for="wisBox">WIS: </label>
+            <input id="wisBox" type="text" readonly />
+            <span>
+              <button id="wis2" disabled class="statButton" value="wisBox,2,mentVal">+2</button>
+              <button id="wis1" disabled class="statButton" value="wisBox,1,allVal">+1</button>
+              <button id="wis14" class="statButton" value="wisBox,14,val14">Set to 14</button>
+            </span>
+          </li>
+          <li>
+            <label for="chaBox">CHA: </label>
+            <input id="chaBox" type="text" readonly />
+            <span>
+              <button id="cha2" disabled class="statButton" value="chaBox,2,mentVal">+2</button>
+              <button id="cha1" disabled class="statButton" value="chaBox,1,allVal">+1</button>
+              <button id="cha14" class="statButton" value="chaBox,14,val14">Set to 14</button>
+            </span>
+          </li>
+        </ul>
+      </div>
+    </div>
+    <div class="right">
+      <div class="skillWrapper">
+        <h2>Current Skills</h2>
+        <div id="skillContainer">
+          <ul id="skillList"></ul>
+        </div>
+      </div>
+      <div class="bonusSkillWrapper">
+        <h2>Choose one more skill:</h2>
+        <div id="skillListContainer">
+          <ul id="allSkillList"></ul>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <h1>Focuses and Traditions</h1>
+  <div class="section" id="Foci">
+    <div class="left">
+      <h2>Class Abilities</h2>
+      <ul id="classAbilities"></ul>
+    </div>
+    <div class="right">
+      <h2>Focus Picks</h2>
+      <ul id="focusPicks"></ul>
+      <h2>Traditions</h2>
+      <ul id="traditionList"></ul>
+      <p>Note: A deft character may choose a single tradition focus at character creation. Doing so causes them to lose the Expertise ability.</p>
+      <p>Note: A martial character may choose a single tradition focus at character creation. Doing so causes them to lose the Killing Blow and Battlemaster abilities.</p>
+      <p>Note: An Arcane character must choose 2 tradition foci at character creation.They can take one tradition to level 2, or choose two traditions at level 1.</p>
+      <p>Note: A Devout character must choose 2 tradition foci at character creation.They can take one tradition to level 2, or choose two traditions at level 1.</p>
+      <ul>Further limitations for traditions are:
+        <li>High Mage cannot be combined with any Devout traditions.</li>
+        <li>Mageslayer can only be combined with Devout traditions, Duelist, and Beastmaster.</li>
+      </ul>
+    </div>
+    <h2></h2>
+  </div>
+  </div>
+  <h2>Focus List</h2>
+  <div class="section" id="focusListID">
+    <div class="foci" id="martialFoci">Martial
+      <div class="tooltip">Armored Magic
+        <span class="tooltipText">
+          <ul> Rank 1
+            <li>You can cast spells or channel miracles while wearing armor that has an Encumbrance value of no more
+              than two.</li>
+            <li>You can use a shield, provided your other hand is empty for gesturing.</li>
+          </ul>
+          <ul> Rank 2
+            <li>You can cast spells or channel miracles wearing armor of any encumbrance.</li>
+            <li>You can cast spells while your hands are full, though not while bound.</li>
+          </ul>
+        </span>
+      </div>
+      <div class="tooltip">Armsmaster
+        <span class="tooltipText">
+          <ul> Rank 1
+            <li>Gain melee as a bonus skill.</li>
+            <li>You can ready a Stowed melee or thrown weapon as an Instant action.</li>
+            <li>Add your Melee skill to melee or thrown weapons' damage and shock damage, assuming it has any to begin
+              with.</li>
+          </ul>
+          <ul> Rank 2
+            <li>Add your Melee skill to the armor penetration of your melee attacks. If another ability grants armor
+              penetration, use the highest value among them.</li>
+            <li>Gain a +1 bonus to Attack with all thrown and melee weapons.</li>
+          </ul>
+        </span>
+      </div>
+      <div class="tooltip">Assassin
+        <span class="tooltipText">
+          <ul> Rank 1
+            <li>Gain Sneak as a bonus skill.</li>
+            <li>You can conceal an object no larger than a knife from anything less than a strip search. You can draw or
+              produce this object as a Free action, and your point-blank thrown or melee attacks made during a surprise
+              round with it cannot miss the target.</li>
+          </ul>
+          <ul> Rank 2
+            <li>You can take a Move action on the same round you make an Execution attack. You may split this movement
+              around the attack. This movement happens too quickly to alert a victim or to be hindered by bodyguards.
+            </li>
+        </span>
+      </div>
+      <div class="tooltip">Close Combatant
+        <span class="tooltipText">
+          <ul> Rank 1
+            <li>Gain any combat skill as a bonus skill.</li>
+            <li>You can use thrown weapons in melee without suffering penalties from melee attackers.</li>
+            <li>You ignore Shock damage from melee assailants, but invoking this benefit disrupts any spellcasting this
+              round.</li>
+          </ul>
+          <ul> Rank 2
+            <li>Add half of your level (rounded up) to the armor penetration of your melee attacks. If another ability
+              grants armor penetration, use the highest value among them.</li>
+            <li>The Fighting Withdrawal combat action is a Free action for you and can be performed freely.</li>
+        </span>
+        </div>
+        <div class="tooltip">Die Hard
+          <span class="tooltipText">
+            <ul> Rank 1
+              <li>Gain 2 additional maximum hit points per level.</li>
+              <li>When rolling for Death and Dismemberment, increase your CON modifier by +2, up to a maximum of 4.</li>
+            </ul>
+            <ul> Rank 2
+              <li>The first time each day that you are reduced to zero hit points by an injury, you instead survive with
+                one hit point. This can't save you from large-scale, instantly-lethal trauma.</li>
+          </span>
+        </div>
+        <div class="tooltip">Deadeye
+          <span class="tooltipText">
+            <ul> Rank 1
+              <li>Gain Ranged as a bonus skill.</li>
+              <li>You can ready a Stowed ranged weapon as an Instant action.</li>
+              <li>You may use a two-handed ranged weapon even when an enemy is within melee range, at a -4 penalty.</li>
+              <li>Add your Ranged skill to damage with ranged weapons.</li>
+            </ul>
+            <ul> Rank 2
+              <li>You can reload slow-loading weapons as an Instant action, provided they don't take more than a round
+                to reload.</li>
+              <li>You can use ranged weapons of any size in melee without penalty.</li>
+              <li>Once per scene, as a Free Action when shooting at a non-creature target, you automatically hit unless
+                the shot is physically impossible.</li>
+          </span>
+        </div>
+        <div class="tooltip">Impervious Defense
+          <span class="tooltipText">
+            <ul> Rank 1
+              <li>You have an innate Armor of 13 plus half your character level, rounded up.</li>
+            </ul>
+            <ul> Rank 2
+              <li>Once per day, as an Instant action, you can shrug off any single weapon attack or physical trauma inflicted
+                by a foe. Environmental damage, falling damage, or other harm that couldn't be forfended by strong armor cannot
+                be resisted this way.</li>
+            </ul>
+          </span>
+        </div>
+        <div class="tooltip">Shocking Assault
+          <span class="tooltipText">
+            <ul> Rank 1
+              <li>Gain Unarmed or Melee as a bonus Skill.</li>
+              <li>Add half of your level (rounded up) to the armor penetration of your melee attacks. If another ability
+                grants armor penetration, use the highest value among them.</li>
+            </ul>
+            <ul> Rank 2
+              <li>Gain a +2 bonus to the Shock damage rating of all the melee weapons and unarmed attacks that do Shock.</li>
+            </ul>
+          </span>
+        </div>
+        <div class="tooltip">Sniper's Eye
+          <span class="tooltipText">
+            <ul> Rank 1
+              <li>Gain Ranged as a bonus skill.</li>
+              <li>When making a skill check for an Execution Attack with a ranged weapon or target shooting, roll 3d6 and drop the lowest die.</li>
+            </ul>
+            <ul> Rank 2
+              <li>You don't miss ranged Execution Attacks. A target hit by one takes a -4 penalty on the Physical saving throw to avoid immediate mortal injury.
+                Even if the save is successful, the target takes double the normal damage inflicted by the attack.
+              </li>
+            </ul>
+          </span>
+        </div>
+        <div class="tooltip">Unarmed Combatant
+          <span class="tooltipText">
+            <ul> Rank 1
+              <li>Gain Unarmed as a bonus skill.</li>
+              <li>Your unarmed attacks become more dangerous as your Unarmed skill increases. At level-0, they do 1d6 damage. At level-1, they do 1d8
+                 damage. At level-2 they do 1d10, level-3 does 1d12, and level-4 does 1d12+1. </li>
+              <li>At Unarmed-1 or better, they have the Shock quality, with damage equal to your Unarmed skill and an armor penetration of 4.</li>
+            </ul>
+            <ul> Rank 2
+              <li>Even on a miss with an Unarmed attack, you do an unmodified 1d6 damage, plus any Shock that the blow might inflict on the target.
+              </li>
+            </ul>
+          </span>
+        </div>
+        <div class="tooltip">Valiant Defender
+          <span class="tooltipText">
+            <ul> Rank 1
+              <li>Gain Melee or Unarmed as a bonus skill.</li>
+              <li>Gain a +2 on all skill checks for the Screen Ally combat action.</li>
+              <li>You can screen against one more attacker per round than your skill would normally allow.</li>
+              <li>Once per round, you can Screen Ally against even intangible spells or magical attacks or bodily shield them from an 
+                area-effect explosion or magic. Such attempts require the usual successful opposing skill check, with the assailant using their Magic skill.</li>
+            </ul>
+            <ul> Rank 2
+              <li>The first Screen Ally skill check you make in a round is always successful.</li>
+              <li>Gain +2 Defense while screening someone.</li>
+              <li>You can screen against foes as large as ogres or oxen.</li>
+            </ul>
+          </span>
+        </div>
+        <div class="tooltip">Whirlwind Assault
+          <span class="tooltipText">
+            <ul> Rank 1
+              <li>Gain Melee as a bonus skill.</li>
+              <li>Once per scene, as a Free action, apply your Shock damage to all foes within melee range, assuming they're susceptible to your Shock.</li>
+            </ul>
+            <ul> Rank 2
+              <li>The first time you kill someone in a round with a normal attack, either with its rolled damage on a hit or with the Shock damage it 
+                inflicts, instantly gain a second attack on any target within range using any Ready weapon you have.</li>
+            </ul>
+          </span>
+        </div>
+      </div>
+      <div class="foci" id="deftFoci">Deft
+        <div class="tooltip">Alert
+          <span class="tooltipText">
+            <ul> Rank 1
+              <li>Gain Notice as a bonus skill</li>
+              <li>You cannot be surprised or targeted by execution attacks.</li>
+              <li> Roll initiative with advantage.</li>
+            </ul>
+            <ul> Rank 2
+              <li>You always win initiative unless someone else involved is also this alert.</li>
+            </ul>
+          </span>
+        </div>
+        <div class="tooltip">Authority
+          <span class="tooltipText">
+            <ul> Rank 1
+              <li>Gain Lead as a bonus skill.</li>
+              <li>Once per day, you can make a request from an NPC who is not openly hostile, rolling a Cha/Lead skill
+                check at a difficulty of the NPC's Morale score. If you succeed, they will comply with the request,
+                provided it is not significantly harmful or uncharactaristic.</li>
+            </ul>
+            <ul> Rank 2
+              <li>Any NPC being directly led by you gains a Moral and Attack bonus equal to your Lead skill, and a +1 on
+                all skill checks. Your followers and henchmen will not act against your interests unless under extreme
+                pressure.</li>
+          </span>
+        </div>
+        <div class="tooltip">Connected
+          <span class="tooltipText">
+            <ul> Rank 1
+              <li>Gain Connect as a bonus skill.</li>
+              <li>If you've spent at least a week in a not-entirely-hostile location, you'll have built a web of
+                contacts willing to do favors for you that are no more than mildly illegal. You can call on one favor
+                per game day and the GM decides how far they'll go for you.</li>
+            </ul>
+            <ul> Rank 2
+              <li>Once per game session, if it's not entirely implausible, you meet someone you know who is willing to
+                do modest favors for you. You can decide when and where you want to meet this person, but the GM decides
+                who they are and what they can do for you.</li>
+             </ul>
+          </span>
+        </div>
+        <div class="tooltip">Cultured
+          <span class="tooltipText">
+            <ul> Rank 1
+              <li>Gain Connect as a bonus skill.</li>
+              <li>You can fluently speak all the common languages of your native region and can convey at least basic
+                information in the uncommon ones.</li>
+              <li>You can learn a new language with only a week's practice with a native speaker.</li>
+              <li>Once per game day, your polished ways automatically gain a minor favor from an NPC that would not put
+                them to significant expense or risk, assuming the NPC isn't hostile to you.</li>
+            </ul>
+            <ul> Rank 2
+              <li>Once per game session, reroll a failed social skill check.</li>
+            </ul>
+          </span>
+        </div>
+        <div class="tooltip">Dealmaker
+          <span class="tooltipText">
+            <ul> Rank 1
+              <li>Gain Trade as a bonus skill.</li>
+              <li>With a half hour of effort you can find a buyer or seller for any good or service that can be traded in the 
+                community, legal or otherwise.</li>
+            </ul>
+            <ul> Rank 2
+              <li>Once per game session, target a sentient who is not just then trying to kill you or your allies and make a request
+                of it that it can comprehend. If it's at all possible for it to make such terms, it will do so for a price or favor
+                it thinks you can grant, though the price for significant favors might be dear.
+              </li>
+            </ul>
+          </span>
+          </span>
+        </div>
+        <div class="tooltip">Diplomatic Grace
+          <span class="tooltipText">
+            <ul> Rank 1
+              <li>Gain Convince as a bonus skill.</li>
+              <li>You speak all the languages common to your region of the world and can learn new ones to a workable level in a week, 
+                becoming fluent in a month.</li>
+                <li>Reroll 1s on any skill check related to negotiation or diplomacy.</li>
+            </ul>
+            <ul> Rank 2
+              <li>Once per day, silenty consecrate a bargain; the target must make a Mental save to break the deal unless their life or
+                something they love as much is imperiled by it. Most NPC's won't even try to break it. The deal must be fore something specific
+                and time-limited, and not an open-ended bargain.
+              </li>
+            </ul>
+          </span>
+        </div>
+        <div class="tooltip">Gifted Surgeon
+          <span class="tooltipText">
+            <ul> Rank 1
+              <li>Gain Heal as a bonus skill.</li>
+              <li>You may attempt to stabilize one Mortally Wounded adjacent person per round as a Move Action.</li>
+              <li>When rolling Heal skill checks, roll 3d6 and drop the lowest die.</li>
+              <li>You heal twice as many hit points as usual when apply first aid.</li>
+            </ul>
+            <ul> Rank 2
+              <li>Your curative efforts count as magical healing. You can heal 1d6+Heal Skill in damage to an adjacent Mortally Wounded ally as a 
+                Main Action, potentially reviving them. Each such application of helaing adds 1 System Strain to the target.
+              </li>
+            </ul>
+          </span>
+        </div>
+        <div class="tooltip">Henchkeeper
+          <span class="tooltipText">
+            <ul> Rank 1
+              <li>Gain Lead as a bonus skill.</li>
+              <li>You can acquire henchmen within 24 hours of arriving in a community, assuming anyone is suitable hench material. These henchmen
+                will not fight except to save their own lives, but will escort you on adventures and risk great danger to help you. Most henchmen from
+                a civilized society will be treated as Peaceful Humans from the bestiary. You can have one henchmen at a time for every three character levels
+                you have, rounded up. You can release henchmen with no hard feelings at any plausible time and pick them back up later should you be without
+                a current henchmen.
+              </li>
+            </ul>
+            <ul> Rank 2
+              <li>Your henchmen are remarkably loyal and determind, and will fight for you against anything but clearly overwhelming odds. They're treated as
+                Veteran Soldier from the bestiary. You can make faithful henchmen out of skilled and highly-capable NPC's but this requires that you actually have
+                done them some favor or help that would reasonably earn such fierce loyalty.
+              </li>
+            </ul>
+          </span>
+        </div>
+        <div class="tooltip">Imposter
+          <span class="tooltipText">
+            <ul> Rank 1
+              <li>Gain Perform or Sneak as a bonus skill.</li>
+              <li>Once per scene, reroll any failed skill check or saving throw related to maintaining an imposture or disguise.</li>
+              <li>Create one false identity of no great social importance; you can flawlessly pretend to be that person, such that only
+                exteme persuasive proof can connnect you with it. You can acquire.</li>
+              <li>You heal twice as many hit points as usual when apply first aid.</li>
+            </ul>
+            <ul> Rank 2
+              <li>Your curative efforts count as magical healing. You can heal 1d6+Heal Skill in damage to an adjacent Mortally Wounded ally as a 
+                Main Action, potentially reviving them. Each such application of helaing adds 1 System Strain to the target.
+              </li>
+            </ul>
+          </span>
+        </div>
+
+        <div class="tooltip">Poisoner
+          <span class="tooltipText">
+            <ul> Rank 1
+              <li>Gain Heal as a bonus skill.</li>
+              <li>Your toxins inflict 2d6 damage plus your level on a hit or Shock, with a Physical save for half. Your incapacitating or hallucinogenic toxins
+                do the same, but those reduced to zero hit points are simply incapacitated for an hour.</li>
+            </ul>
+            <ul> Rank 2
+              <li>You are immune to poison and can applly a universal antidote to any poisoned ally as a Main Action.</li>
+              <li>Any attempt to detect or save against your poisons takes a penalty equal to your Heal skill.</li>
+              <li>Your ingested poisons count as an Execution Attack against unsuspecting targets with Heal used for the Physical saving 
+                throw penalty and 1d6 damage per level done on a success. Such poisons can be non-lethal at your discretion.
+              </li>
+            </ul>
+          </span>
+        </div>
+        <div class="tooltip">Polymath
+          <span class="tooltipText">
+            <ul> Rank 1
+              <li>Gain any one bonus skill.</li>
+              <li>You treat all non-combat skills as if they were at least level-0 for purposes of skill checks, even if you lack them entirely.</li>
+            </ul>
+            <ul> Rank 2
+              <li>You treat all non-combat skills as if they were at least level-1 for purposes of skill checks.</li>
+            </ul>
+          </span>
+        </div>
+        <div class="tooltip">Rider
+          <span class="tooltipText">
+            <ul> Rank 1
+              <li>Gain Ride as a bonus skill.</li>
+              <li>Your steeds all count as Morale 12 in battle, use your Defense if it's higher than theirs, and have 50% more Hex Points of overland movement.</li>
+              <li>You can intuitively communicate with riding beasts, gaining as much information from it as its intellect can convey.</li>
+            </ul>
+            <ul> Rank 2
+              <li>Once per scene, negate a successful attack against your steed as an Instant Action.</li>
+              <li>Once per scene, re-roll any failed Ride skill check.</li>
+              <li>You can telepathically send and receive simple warnings, thoughts, and commands to and from your steed so long as it's within two hundred feet. You 
+                can so bond with one steed at a time, taking an hour to do so.</li>
+            </ul>
+          </span>
+        </div>
+        <div class="tooltip">Specialist
+          <span class="tooltipText">
+            <ul> Rank 1
+              <li>Gain any one skill as a bonus skill.</li>
+              <li>For your chosen skill, roll 3d6 and drop the lowest die for all skill checks.</li>
+              <li>You may choose this Focus more than once to improve different skills.</li>
+            </ul>
+            <ul> Rank 2
+              <li>Roll 4d6 and drop the two lowest dice for all Skill checks with your chosen skill.</li>
+            </ul>
+          </span>
+        </div>
+        <div class="tooltip">Trapmaster
+          <span class="tooltipText">
+            <ul> Rank 1
+              <li>Gain Notice as a bonus skill.</li>
+              <li>Once per scene, reroll any failed saving throw or skill check related to traps or snares.</li>
+              <li>Given five minutes of work you can trap a portal, container, passageway, or other relatively narrow space
+                 with foot snares, caltrops, toxic needles, or other hazards. Non-lethal traps cause the first victim to 
+                 trigger it to lose a round of actions while dangerous ones inflict 1d6 damage plus twice the character's level, 
+                 with an appropriate saving throw for half. Only one such improvised trap can be maintained at a time. More 
+                 fearsome traps may be laid with congenial circumstances and the GM's permission.</li>
+            </ul>
+            <ul> Rank 2
+              <li>You know secrets for unraveling even magical traps or arcane hazards that would normally require a wizard to 
+                dispel them. Once per scene, your efforts count as an Dispel Magic spell against the trap or hazard, cast as if 
+                a Mage of twice your level, with any relevant skill check being Int/Notice or Dex/Notice. This ability can be used
+                 against any stationary magical effect that's susceptible to being dispelled by Dispel Magic </li>
+            </ul>
+          </span>
+        </div>
+        <div class="tooltip">Well Met
+          <span class="tooltipText">
+            <ul> Rank 1
+              <li>Reaction rolls made by those the party meets are given a +1 bonus so long as you are present, whether or not you do the 
+                talking. Even hostile encountered beings will usually give the party a round to parley before attacking unless they're
+                 in ambush or have a clear reason for immediate violence.</li>
+            </ul>
+            <ul> Rank 2
+              <li>Once per game session, when a reaction roll is made, cause the subject to be as friendly and helpful to you and your 
+                party as it's plausibly possible for them to be. It's up to the GM to decide why the creature becomes so; it might be 
+                mistaken about your nature, or find you hilarious, or perhaps want a favor from you and your allies.</li>
+            </ul>
+          </span>
+        </div>
+
+      </div>
+      <div class="foci" id="generalFoci">General
+        <div class="tooltip">Developed Attribute
+          <span class="tooltipText">
+            <ul> Rank 1
+              <li>Choose an attribute; its modifier is increased by +1, up to a maximum of +3. The score does not increase.</li>
+              <li>You may choose this Focus more than once to improve different attributes.</li>
+            </ul>
+          </span>
+        </div>
+        <div class="tooltip">Nullifier
+          <span class="tooltipText">
+            <ul> Rank 1
+              <li>You and all allies within twenty feet gain a +2 bonus to all saving throws against magical effects.</li>
+              <li>As a Free Action, you can feel the presence or use of magic within twenty feet of you, though you can't discern
+                detail about it or the specific source.</li>
+              <li>The first failed saving throw against a magical effect you suffer in a day is turned into a success.</li>
+            </ul>
+            <ul> Rank 2
+              <li>Once per day as an Instant Action, you are simply not affected by an unwanted magical effect or supernatural monstrous
+                ability, even if it wouldn't normally allow a saving throw. Immunity to a persistent effect lasts for the rest of the scene.</li>
+            </ul>
+          </span>
+        </div>
+        <div class="tooltip">Spirit Familiar
+          <span class="tooltipText">
+            <ul> Rank 1
+              <li>Choose a form for your familiar no smaller than a cat nor larger than a human. It has the traits and abilities of an entity 
+                created by Find Familiar but may be summoned or dismissed as a Main Action, appearing within melee range of its owner. It 
+                cannot carry objects with it during its vanishment aside from the clothing natural to its shape. It has no need for food, 
+                water, or sleep. If killed, it vanishes and cannot be re-summoned for 24 hours. Once per day, it can refresh one point of 
+                Committed Effort for you.</li>
+            </ul>
+            <ul> Rank 2
+              <li>Pick two benefits from the list below for your familiar. This level may be taken more than once, adding two additional options each time.
+              <li>It has hit points equal to three times your level</li>
+                <li>It gains the ability to attack with a hit bonus equal to half your level, rounded up, doing 1d8 damage on a hit with no Shock</li>
+                  <li> It gains a +1 skill check bonus and can apply it to a range of situations equivalent to one normal human background</li>
+                    <li>It gains another shape of your choice which it can adopt or discard as a Free action</li>
+                      <li>It can hover or fly at its usual movement rate</li>
+                        <li>It can communicate freely with others in any language you know</li>
+                      </li>
+                
+            </ul>
+          </span>
+        </div>
+      </div>
+    </div>
+</body>
+
+</html>

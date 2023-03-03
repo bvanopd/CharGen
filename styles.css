@@ -1,0 +1,143 @@
+.attributesContainer{
+  display: flex row;
+  max-width: 400px;
+  padding-left: 0;
+}
+
+.attributesContainer li {
+  display: flex;
+}
+
+.attributesContainer label{
+  width: 45px;
+}
+
+
+#skillListContainer {
+  max-width: 400px;
+}
+
+
+#skillListContainer ul{
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+}
+
+#skillListContainer li {
+    list-style: none;
+    flex-basis: 32%;
+    padding: 2px;
+
+}
+
+#skillListContainer button {
+  box-shadow: 1px 1px 1px darkgray;
+}
+
+.section {
+  display: flex;
+  flex-direction: row;
+}
+
+.left {
+  display: flex;
+  flex-direction: column;
+  width: 50%;
+  height: 100%;
+}
+
+.right {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+#stats {
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+  height: 600px;
+  justify-content: space-between;
+}
+
+
+.abilityWrapper {
+  margin-top: auto;
+}
+
+.bonusContainer span {
+
+  font-weight: bold;
+}
+h1 {
+  text-align: center;
+}
+
+body{
+  display: flex-column;
+}
+
+#skillListContainer {
+  max-width: 400px;
+}
+
+
+#classAbilities {
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+  justify-content: space-between;
+}
+
+#classAbilities li {
+  display: flex;;
+    list-style: none;
+    flex-basis: 32%;
+    padding: 2px;
+}
+
+.tooltip {
+  display: inline-block;
+  padding: 2px;
+  border: 2px solid darkgray;
+  transition: transform .2s;
+  margin: 5px;
+}
+.tooltip:hover {
+  transform: scale(1.1);
+}
+
+.tooltip .tooltipText {
+  display:none;
+  width: 600px;
+  flex-direction: column;
+  background-color: rgb(49, 49, 49);
+  color: #fff;
+  text-align: left;
+  border-radius: 6px;
+  padding: 5px 0;
+
+
+  /* Position the tooltip */
+  position: absolute;
+  z-index: auto;
+  top: -5px;
+  left: 105%;
+}
+.tooltipText li {
+  padding: 5px;
+}
+
+.tooltip:hover .tooltipText {
+  display: flex;
+}
+
+.foci {
+  display: flex;
+  flex-direction: column;
+}
+
+#focusListID {
+  margin-bottom: 300px;
+}
