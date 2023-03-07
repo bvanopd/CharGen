@@ -32,7 +32,7 @@ export default class Character{
         hp+=2;
         break;
       case "Arcane" :
-        hp-=2;
+        hp-=1;
         break;
     }
     if (hp<1){
